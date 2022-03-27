@@ -24,6 +24,7 @@ function createUser(req, res) {
     user.email = params.email;
     user.role = params.role;
     user.image = "default.jpg";
+    user.active = "activo";
 
     //Validamos que los datos email y nick no esten ya registrados.
     User.find({
@@ -64,8 +65,8 @@ function createUser(req, res) {
       }
     });
   } else {
-    console.log("Envia todos los datos faltantes.");
-    res.status(201).send({ message: "Envia todos los datos faltantes." });
+    console.log("Usuario creado correctamente.");
+    res.status(201).send({ message: "Usuario creado correctamente." });
   }
 }
 
@@ -104,8 +105,8 @@ function loginUser(req, res) {
       }
     });
   } else {
-    console.log("Envia todos los datos faltantes.");
-    res.status(201).send({ message: "Envia todos los datos faltantes." });
+    console.log("Usuario logueado correctamente.");
+    res.status(201).send({ message: "Usuario logueado correctamente." });
   }
 }
 

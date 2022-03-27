@@ -11,6 +11,7 @@ var mad_upload = multipart({uploadDir: './uploads/users'});
 
 api.post('/user-register', UserController.createUser);
 api.post('/user-login', UserController.loginUser);
+
 api.put('/update-user/:id', md_auth.ensureAuth, UserController.updateUser);
 api.get('/getUser', md_auth.ensureAuth, UserController.getUser);
 api.get('/user/:id', md_auth.ensureAuth, UserController.getUserById); //id bligatorio.

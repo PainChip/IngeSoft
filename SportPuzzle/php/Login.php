@@ -54,8 +54,8 @@
 
                     <select class="custom-select" id="inputGroupSelect01">
                         <option selected>Elige el tipo de usuario.</option>
-                        <option value="false">Alumno</option>
-                        <option value="true">Escuela</option>
+                        <option value="false">Usuario</option>
+                        <option value="true">Adminisstrador</option>
                     </select>
 
                     <button id="btnregistra">Registrarse</button>
@@ -73,8 +73,6 @@
         } from '../Js/urlglobal.js'
 
         $(document).ready(function() {
-            var listProducts = [];
-            var comosalio = 0;
             $(".formulario__register").submit(function(e) {
                 e.preventDefault();
             });
@@ -108,7 +106,7 @@
                 var aver = JSON.stringify(dataToSend);
                 debugger
                 $.ajax({
-                    url: urlglobal.url + "/getUserByUsuarioContra",
+                    url: urlglobal.url + "/user-login",
                     async: true,
                     type: 'POST',
                     data: aver,
@@ -129,17 +127,20 @@
                 // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
                 var dataToSend = {
 
-                    usuario: Usuario.nombreUsuario,
-                    nombre: Usuario.nombreReal,
-                    apellidos: Usuario.apellidoUsuario,
-                    correo: Usuario.correoUsuario,
-                    contra: Usuario.contraUsuario,
-                    rol: Usuario.rolUsuario
+                    nick: Usuario.nombreUsuario,
+                    name: Usuario.nombreReal,
+                    surname: Usuario.apellidoUsuario,
+                    email: Usuario.correoUsuario,
+                    password: Usuario.contraUsuario,
+                    role: Usuario.rolUsuario
 
                 };
                 var aver = JSON.stringify(dataToSend);
+
+
                 $.ajax({
-                    url: urlglobal.url + "/addUser",
+
+                    url: urlglobal.url + "/user-register",
                     async: true,
                     type: 'POST',
                     data: aver,
@@ -147,6 +148,7 @@
                     contentType: 'application/json; charset=utf-8',
                     success: function() {
                         alert("Se registro correctamente");
+                        debugger
                         window.location.reload();
                     },
                     error: function(x, y, z) {

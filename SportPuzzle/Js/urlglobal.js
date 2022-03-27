@@ -1,3 +1,3 @@
 export var urlglobal = {
-    url: 'http://localhost/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/public'
+    url: 'http://localhost:5000/api'
 }
