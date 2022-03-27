@@ -1,0 +1,65 @@
+body {
+    background-color: #b3b052a4;
+}
+
+#carrito {
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access {
+    margin-left: 10px;
+}
+
+.carousel img {
+    object-fit: cover;
+    max-height: 500px;
+}
+
+.checked {
+    color: orange;
+}
+
+section {
+    padding: 10px 0;
+}
+
+#footer {
+    background: #7952b3;
+    margin-top: 50px;
+}
+
+#footer a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+#upload {
+    display: none;
+}
+
+.noticiamarco {
+    border-left: 6px solid;
+    border-right: 6px solid;
+    border-color: #7952b3;
+    background-color: rgba(255, 255, 255, .7);
+    margin-left: 300px;
+    margin-right: 300px;
+    padding-left: 10px;
+}
+
+.form-group-imagen1 {
+    width: 100px;
+}
+
+@media screen and (max-width: 850px) {
+    .noticiamarco {
+        border-left: 6px solid;
+        border-color: #7952b3;
+        background-color: rgba(255, 255, 255, .5);
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}

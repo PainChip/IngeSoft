@@ -1,0 +1,57 @@
+#carrito {
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access {
+    margin-left: 10px;
+}
+
+.carousel img {
+    object-fit: cover;
+    max-height: 500px;
+}
+
+.checked {
+    color: orange;
+}
+
+section {
+    padding: 10px 0;
+}
+
+#footer {
+    background: #7952b3 !important;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#footer a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+#upload {
+    display: none;
+}
+
+div div h1,
+h2,
+h3 {
+    text-align: center;
+}
+
+.cursos p {
+    float: left;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 850px) {
+    .cursos p {
+        float: none;
+        margin-bottom: 5px;
+    }
+}

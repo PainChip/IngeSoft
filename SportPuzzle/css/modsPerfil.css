@@ -1,0 +1,49 @@
+#carrito {
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access {
+    margin-left: 10px;
+}
+
+.carousel img {
+    object-fit: cover;
+    max-height: 500px;
+}
+.checked {
+    color: orange;
+}
+section {
+    padding: 10px 0;
+}
+
+#footer {
+    background: #7952b3 ;
+    margin-top: 50px;
+}
+
+#footer a {
+    color: #ffffff;
+    text-decoration: none ;
+    background-color: transparent;
+}
+
+#upload{
+    display: none;
+}
+
+
+div div .twitter_button{
+    background-color:#1da1f2;
+    border-radius: 50px;
+    height: 50px;
+    width: 100%;
+    border: none;
+    color: #ffffff;
+}
+
+.twitter_button:hover{
+    background-color: rgb(27, 120, 179);
+}

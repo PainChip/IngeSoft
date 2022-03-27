@@ -1,0 +1,238 @@
+body {
+    background-image: url(https://t3.ftcdn.net/jpg/01/22/89/84/360_F_122898445_th5zUBYtFV6t1kbANjlJFUdNks8lBRNv.jpg);
+    background-repeat: repeat-y;
+    background-size: cover;
+}
+
+#carrito {
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access {
+    margin-left: 10px;
+}
+
+.recuadro {
+    display: grid;
+    place-items: center;
+}
+
+#chat-container {
+    display: grid;
+    grid: 'search-container chat-title' 71px 'conversation-list chat-message-list' 1fr 'new-message-container chat-form' 78px / 275px 1fr;
+    min-width: 800px;
+    max-width: 1200px;
+    max-height: 650px;
+    width: 100%;
+    height: 95vh;
+    background: #b3acac;
+    border-radius: 10px;
+}
+
+#search-container,
+#conversation-list,
+#new-message-container {
+    background: #dfdbdb;
+}
+
+#search-container {
+    display: grid;
+    align-items: center;
+    padding: 0 20px;
+    grid-area: search-container;
+    border-radius: 10px 0 0 0;
+    box-shadow: 0 1px 3px -1px rgba(0, 0, 0, .75);
+    z-index: 1;
+}
+
+#search-container input {
+    color: rgb(0, 0, 0);
+    outline: none;
+    font-weight: bold;
+    border-radius: 2px;
+    height: 30px;
+    width: 240px;
+    border: 0;
+    padding-left: 48px;
+    padding-right: 20px;
+    font-size: 1.4rem;
+    background: url(https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png) no-repeat rgba(255, 255, 255, .5);
+    background-position: 15px center;
+    background-size: 20px 20px;
+}
+
+#search-container input::placeholder {
+    color: rgb(107, 107, 107);
+    font-weight: bold;
+}
+
+#conversation-list {
+    grid-area: conversation-list;
+    overflow-y: scroll;
+}
+
+.conversation {
+    display: grid;
+    grid-template-columns: 40px 1fr max-content;
+    grid-gap: 10px;
+    color: black;
+    font-size: 1.3rem;
+    border-bottom: 1px solid purple;
+    padding: 20px 20px 20px 15px;
+}
+
+.conversation.active,
+.conversation:hover {
+    background: purple;
+}
+
+.conversation:hover {
+    cursor: pointer;
+}
+
+.conversation>img {
+    grid-row: span 2;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.title-text {
+    font-weight: bold;
+    color: black;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.created-date {
+    color: black;
+    font-size: 1rem;
+}
+
+.conversation-message {
+    grid-column: span 2;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+#new-message-container {
+    display: grid;
+    grid: 40px/ 40px;
+    align-content: center;
+    grid-area: new-message-container;
+    border-top: 1px solid rgba(0, 0, 0, .25);
+    border-radius: 0 0 0 10px;
+    padding: 0 15px;
+}
+
+#new-message-container a {
+    display: grid;
+    place-content: center center;
+    background: #eee;
+    border-radius: 100%;
+    color: black;
+    text-decoration: none;
+    font-size: 2.5rem;
+}
+
+#chat-title,
+#chat-form {
+    background: #e6e5e4;
+}
+
+#chat-title {
+    display: grid;
+    grid: 36/ 1fr 36px;
+    align-content: center;
+    align-items: center;
+    grid-area: chat-title;
+    color: black;
+    font-weight: bold;
+    font-size: 2.0rem;
+    border-radius: 0 10px 0 0;
+    box-shadow: 0 1px 3px -1px rgba(0, 0, 0, .75);
+    padding: 0 20px;
+}
+
+#chat-title>img {
+    cursor: pointer;
+}
+
+#chat-message-list {
+    grid-area: chat-message-list;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0 20px;
+    overflow-y: scroll;
+}
+
+.message-row {
+    display: grid;
+    grid-template-columns: 70%;
+    margin-bottom: 20px;
+}
+
+.you-message {
+    justify-content: end;
+    justify-items: end;
+}
+
+.other-message {
+    justify-items: start;
+}
+
+.message-text {
+    padding: 9px 14px;
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+}
+
+.message-time {
+    font-size: 1.3rem;
+    color: #777;
+}
+
+.you-message .message-text {
+    background: purple;
+    color: #eee;
+    border: 1px solid purple;
+    border-radius: 14px 14px 0 14px;
+}
+
+.other-message .message-text {
+    background: #eee;
+    color: #111;
+    border: 1px solid #ddd;
+    border-radius: 14px 14px 14px 0;
+}
+
+#chat-form {
+    display: grid;
+    grid: 51px / 32px 1fr;
+    align-content: center;
+    align-items: center;
+    grid-gap: 15px;
+    grid-area: chat-form;
+    border-radius: 0 0 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, .25);
+    padding-left: 42px;
+    padding-right: 22px;
+}
+
+#chat-form input {
+    outline: none;
+    padding: 15px;
+    border: 2px solid #ddd;
+    color: #330;
+    border-radius: 6px;
+    font-size: 1.4rem;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

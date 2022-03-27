@@ -1,0 +1,27 @@
+#carrito {
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access {
+    margin-left: 10px;
+}
+
+.checked {
+    color: orange;
+}
+
+section {
+    padding: 10px 0;
+}
+
+#footer {
+    background: #7952b3 !important;
+}
+
+#footer a {
+    color: #ffffff;
+    text-decoration: none !important;
+    background-color: transparent;
+}
