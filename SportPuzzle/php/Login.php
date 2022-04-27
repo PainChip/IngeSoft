@@ -112,7 +112,8 @@
                     data: aver,
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
-                    success: function() {
+                    success: function(data) {
+                        alert(data);
                         alert("Logueado correctamente");
                         window.location.assign("index.php");
                     },
