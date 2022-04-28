@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 
 var bcrypt = require("bcrypt-nodejs");
-var User = require("../models/user");
+var User = require("../models/userModel");
 var jwt = require("../services/jwt");
 var mongoosePaginate = require("mongoose-pagination");
 
@@ -70,19 +70,19 @@ function createUser(req, res) {
   }
 }
 
-function loginUser(req, res) {
+function authUser(req, res) {
   var params = req.body;
   var email = params.email;
   var password = params.password;
 
-  if(email && password) {
+  if(email) {
     User.findOne({ email: email }, (err, user) => {
       if (err) {
         console.log(err);
         return res.status(500).send({ message: "Error en la petición." });
       }
   
-      if (user) {
+      if (user && user.active == 1) {
         bcrypt.compare(password, user.password, (err, check) => {
           if (check) {
             //Para poder ver el token el los params agregamos una variable llamada gettoken = true
@@ -105,8 +105,8 @@ function loginUser(req, res) {
       }
     });
   } else {
-    console.log("Usuario logueado correctamente.");
-    res.status(201).send({ message: "Usuario logueado correctamente." });
+    console.log("Envia todos los datos faltantes.");
+    res.status(201).send({ message: "Envia todos los datos faltantes." });
   }
 }
 
@@ -127,6 +127,10 @@ function updateUser(req, res) {
       { nick: update.nick },
     ],
   }).exec((err, users) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send({ message: "Error en la petición updateUser()" });
+    }
     var user_isset = false;
 
     users.forEach((user) => {
@@ -267,7 +271,7 @@ function getImageFile(req, res){
 
 module.exports = {
   createUser,
-  loginUser,
+  authUser,
   updateUser,
   getUserById,
   getAllUer,
