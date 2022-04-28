@@ -1,12 +1,12 @@
-var Usuario = function(idUsuario, rolUsuario, nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, avatarUsuario, activoUsuario) {
+var Usuario = function(idUsuario, role, nick, surname, email, password, image, active) {
 
     this.idUsuario = idUsuario;
-    this.rolUsuario = rolUsuario;
-    this.nombreUsuario = nombreUsuario;
-    this.nombreReal = nombreReal;
-    this.apellidoUsuario = apellidoUsuario;
-    this.correoUsuario = correoUsuario;
-    this.contraUsuario = contraUsuario;
-    this.avatarUsuario = avatarUsuario;
-    this.activoUsuario = activoUsuario;
+    this.role = role;
+    this.nick = nick;
+    this.surname = surname;
+    this.email = email;
+    this.password = password;
+    this.image = image;
+    this.active = active;
 };
+

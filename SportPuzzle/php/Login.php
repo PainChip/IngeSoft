@@ -38,7 +38,7 @@
             <div class="contenedor__login-register">
                 <form action="" class="formulario__login">
                     <h2>Iniciar sesión</h2>
-                    <input id="User" type="text" placeholder="Username">
+                    <input id="Email" type="text" placeholder="Email">
                     <input id="Contra" type="password" placeholder="Contraseña">
                     <button id="btnentra">Entrar</button>
 
@@ -46,10 +46,9 @@
 
                 <form action="" class="formulario__register">
                     <h2>Registrarse</h2>
-                    <input id="User2" type="text" placeholder="Username">
-                    <input id="Name" type="text" placeholder="Nombre">
-                    <input id="Apellidos" type="text" placeholder="Apellidos">
-                    <input id="Email" type="email" placeholder="Email">
+                    <input id="User" type="text" placeholder="Username">
+                    <input id="Name" type="text" placeholder="Nombre completo">
+                    <input id="Email2" type="email" placeholder="Email2">
                     <input id="Contra2" type="password" placeholder="Contraseña">
 
                     <select class="custom-select" id="inputGroupSelect01">
@@ -80,36 +79,37 @@
                 e.preventDefault();
             });
             $('#btnentra').click(function() {
-                //idUsuario, rolUsuario, nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, avatarUsuario, activoUsuario
-                var usuario = new Usuario(null, null,$('#User').val(), null, null, null, $('#Contra').val(), null, null);
+                //idUsuario, role, nick, surname, email, password, image, active
+                var usuario = new Usuario(null, null, null, null, $('#Email').val(), $('#Contra').val(), null, null);
                 
                 getUser(usuario);
                 
             });
             $('#btnregistra').click(function() {
-                var usuario = new Usuario(null,  $('#inputGroupSelect01').val(), $('#User2').val(), $('#Name').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contra2').val(),null,null);
+                //idUsuario, role, nick, surname, email, password, image, active
+                var usuario = new Usuario(null,  $('#inputGroupSelect01').val(), $('#User').val(), $('#Name').val(), $('#Email2').val(), $('#Contra2').val(),null,null);
                 var contra = $('#Contra2').val();
                 if(validar_clave(contra)){
                     sendUser(usuario);
                 }else{
-                    alert("La contraseña no aceptada");
+                    alert("Contraseña no aceptada");
                 }            
 
             });
 
             function getUser(Usuario) {
-                // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
+                // Objeto en formato JSON el cual le enviaremos a la API 
                 var dataToSend = {
-                    usuario: Usuario.nombreUsuario,
-                    contra: Usuario.contraUsuario,
+                    email: Usuario.email,
+                    password: Usuario.password,
                 };
-                var aver = JSON.stringify(dataToSend);
+                var dataAjax = JSON.stringify(dataToSend);
                 debugger
                 $.ajax({
-                    url: urlglobal.url + "/user-login",
+                    url: urlglobal.url + "/authUser",
                     async: true,
                     type: 'POST',
-                    data: aver,
+                    data: dataAjax,
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     success: function(data) {
@@ -125,26 +125,23 @@
             }
 
             function sendUser(Usuario) {
-                // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
+                // Objeto en formato JSON el cual le enviaremos a la API 
                 var dataToSend = {
-
-                    nick: Usuario.nombreUsuario,
-                    name: Usuario.nombreReal,
+                    role: Usuario.role,
+                    nick: Usuario.nick,
+                    surname: Usuario.surname,
                     surname: Usuario.apellidoUsuario,
-                    email: Usuario.correoUsuario,
-                    password: Usuario.contraUsuario,
-                    role: Usuario.rolUsuario
-
+                    email: Usuario.email,
+                    password: Usuario.password
                 };
-                var aver = JSON.stringify(dataToSend);
-
+                var dataAjax = JSON.stringify(dataToSend);
 
                 $.ajax({
 
-                    url: urlglobal.url + "/user-register",
+                    url: urlglobal.url + "/createUser",
                     async: true,
                     type: 'POST',
-                    data: aver,
+                    data: dataAjax,
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     success: function() {
