@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 
 var validationService = require("../services/validations"); 
-var Product = require("../models/productModel");
+var Product = require("../models/productModel.js");
 var Category = require("../models/categoryModel.js");
 
 function createProduct(req, res) {

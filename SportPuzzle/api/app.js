@@ -4,12 +4,9 @@ var bodyParser = require('body-parser');
 var app = express();
 
 //Cargar rutas
-var user_routes = require('./routes/user');
-var building_routes = require('./routes/building');
-var product_routes = require('./routes/product');
-var address_routes = require('./routes/address');
-var cart_routes = require('./routes/cart');
-var history_routes = require('./routes/history');
+var user_routes = require('./routes/userRoute');
+var product_routes = require('./routes/productRoute');
+var category_routes = require('./routes/categoryRoute');
 
 //middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -26,11 +23,8 @@ app.use((req, res, next) => {
 
 //rutas 
 app.use('/api', user_routes);
-app.use('/api', building_routes);
+app.use('/api', category_routes);
 app.use('/api', product_routes);
-app.use('/api', address_routes);
-app.use('/api', cart_routes);
-app.use('/api', history_routes);
 
 //exportar 
 module.exports = app;
