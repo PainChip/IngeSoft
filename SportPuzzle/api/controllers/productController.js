@@ -158,6 +158,24 @@ function getProducts(req, res) {
     });
 }
 
+function getProductsByCat(req, res) {
+    var categoryId = req.params.category;
+    Product.find({category:categoryId}, (err, products) => {
+        if(err) {
+            console.log(err);
+            return res.status(500).send({message:"Error en la petición al obtener el producto."})
+        }
+
+        if(!products[0]) {
+            console.log("No se encuentran productos registrados.");
+            return res.status(204).send({ message: "No se encuentran productos registrados." });
+        }
+
+        console.log(products);
+        return res.status(200).send(products);
+    });
+}
+
 function getProductAdmin(req, res) {
     var productId = req.params.product;
 
@@ -250,6 +268,7 @@ module.exports = {
     dropProduct,
     getProduct,
     getProducts,
+    getProductsByCat,
     getProductAdmin,
     getProductsAdmin,
     uploadImage,
