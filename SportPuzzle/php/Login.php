@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/modsLogin.css" />
-    <script type="text/javascript" src="../Js/modelosJS/user.js"></script>
 </head>
 
 <body>
@@ -48,13 +47,13 @@
                     <h2>Registrarse</h2>
                     <input id="User" type="text" placeholder="Username">
                     <input id="Name" type="text" placeholder="Nombre completo">
-                    <input id="Email2" type="email" placeholder="Email2">
+                    <input id="Email2" type="email" placeholder="Email">
                     <input id="Contra2" type="password" placeholder="Contraseña">
 
                     <select class="custom-select" id="inputGroupSelect01">
                         <option selected>Elige el tipo de usuario.</option>
-                        <option value="false">Usuario</option>
-                        <option value="true">Adminisstrador</option>
+                        <option value="USER">Usuario</option>
+                        <option value="ADMIN">Administrador</option>
                     </select>
 
                     <button id="btnregistra">Registrarse</button>
@@ -72,70 +71,111 @@
         } from '../Js/urlglobal.js'
 
         $(document).ready(function() {
+
             $(".formulario__register").submit(function(e) {
                 e.preventDefault();
             });
             $(".formulario__login").submit(function(e) {
                 e.preventDefault();
             });
-            $('#btnentra').click(function() {
-                //idUsuario, role, nick, surname, email, password, image, active
-                var usuario = new Usuario(null, null, null, null, $('#Email').val(), $('#Contra').val(), null, null);
-                
-                getUser(usuario);
-                
+            $('#btnentra').click(async function() {
+                var emailData = $('#Email').val();
+                var passwordData = $('#Contra').val();
+
+                if (emailData == "" || passwordData == "") {
+                    alert("Datos incompletos");
+                } else {
+                    var dataToSend = {
+                        email: $('#Email').val(),
+                        password: $('#Contra').val(),
+                        "gettoken": true
+                    };
+                    var dataAjax = JSON.stringify(dataToSend);
+                    var tokenData = "";
+                    var usernameData = "";
+                    var roleData = ""
+                    var bandera = false;
+                    var respuesta = $.ajax({
+                        url: urlglobal.url + "/authUser",
+                        async: true,
+                        type: 'POST',
+                        data: dataAjax,
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(response) {
+                            console.log(response);
+                            if (response === undefined) {
+                                alert("Este usuario no se pudo identificar.");
+                            } else {
+                                tokenData = response.token;
+                                roleData = response.role;
+                                usernameData = response.username;
+                                bandera = true;
+                            }
+                        },
+                        error: function(x, y, z) {
+                            alert("Contraseña incorrecta");
+                        }
+                    });
+                    debugger
+
+                    respuesta.then(() => {
+                        if (bandera) {
+                            var parametros = {
+                                "token": tokenData,
+                                "correo": emailData,
+                                "rol": roleData,
+                                "username": usernameData
+                            };
+                            debugger
+                            $.ajax({
+                                type: "POST",
+                                url: "SessionSet.php",
+                                data: parametros,
+                                cache: false,
+                                success: function(data) {
+                                    if (data === 'True') {
+                                        alert("Accion Realizada correctamente");
+                                        localStorage.setItem("token", tokenData);
+                                        debugger
+                                        window.location.assign("index.php");
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+
+
+                }
             });
-            $('#btnregistra').click(function() {
-                //idUsuario, role, nick, surname, email, password, image, active
-                var usuario = new Usuario(null,  $('#inputGroupSelect01').val(), $('#User').val(), $('#Name').val(), $('#Email2').val(), $('#Contra2').val(),null,null);
-                var contra = $('#Contra2').val();
-                if(validar_clave(contra)){
-                    sendUser(usuario);
-                }else{
-                    alert("Contraseña no aceptada");
-                }            
 
-            });
-
-            function getUser(Usuario) {
-                // Objeto en formato JSON el cual le enviaremos a la API 
-                var dataToSend = {
-                    email: Usuario.email,
-                    password: Usuario.password,
-                };
-                var dataAjax = JSON.stringify(dataToSend);
-                debugger
-                $.ajax({
-                    url: urlglobal.url + "/authUser",
-                    async: true,
-                    type: 'POST',
-                    data: dataAjax,
-                    dataType: 'json',
-                    contentType: 'application/json; charset=utf-8',
-                    success: function(data) {
-                        alert(data);
-                        alert("Logueado correctamente");
-                        window.location.assign("index.php");
-                    },
-                    error: function(x, y, z) {
-                        alert("Contraseña incorrecta");
-
+            $('#btnregistra').click(async function() {
+                var roleData = $('#inputGroupSelect01').val();
+                var nickData = $('#User').val();
+                var nameData = $('#Name').val();
+                var emailData = $('#Email2').val();
+                var passwordData = $('#Contra2').val();
+                if (roleData == "" || nickData == "" || nameData == "" || emailData == "" || passwordData == "") {
+                    alert("Datos incompletos");
+                } else {
+                    if (validar_clave(passwordData)) {
+                        var userData = {
+                            role: roleData,
+                            nickName: nickData,
+                            fullName: nameData,
+                            email: emailData,
+                            password: passwordData
+                        };
+                        await sendUser(userData);
+                    } else {
+                        alert("Contraseña no aceptada");
                     }
-                });
-            }
+                }
+            });
 
             function sendUser(Usuario) {
-                // Objeto en formato JSON el cual le enviaremos a la API 
-                var dataToSend = {
-                    role: Usuario.role,
-                    nick: Usuario.nick,
-                    surname: Usuario.surname,
-                    surname: Usuario.apellidoUsuario,
-                    email: Usuario.email,
-                    password: Usuario.password
-                };
-                var dataAjax = JSON.stringify(dataToSend);
-
+                var dataAjax = JSON.stringify(Usuario);
                 $.ajax({
 
                     url: urlglobal.url + "/createUser",
@@ -144,9 +184,7 @@
                     data: dataAjax,
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
-                    success: function() {
-                        alert("Se registro correctamente");
-                        debugger
+                    success: function(data) {
                         window.location.reload();
                     },
                     error: function(x, y, z) {
@@ -157,7 +195,6 @@
 
             function validar_clave(contrasenna) {
                 if (contrasenna.length >= 8) {
-                    debugger
                     var mayuscula = false;
                     var minuscula = false;
                     var numero = false;

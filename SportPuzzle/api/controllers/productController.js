@@ -2,7 +2,6 @@ var path = require('path');
 var fs = require('fs');
 var moment = require('moment');
 
-var validationService = require("../services/validations"); 
 var Product = require("../models/productModel.js");
 var Category = require("../models/categoryModel.js");
 
@@ -12,7 +11,6 @@ function createProduct(req, res) {
     }
     
     var params = req.body;
-    var product = validationService.productValidation(params);
     
     if(product === false) {
         console.log("Datos del producto no validos.");
@@ -59,7 +57,6 @@ function editProduct(req, res) {
     var params = req.body;
     var productId = req.params.product;
 
-    var product = validationService.productValidation(params);
     if(product === false || !productId) {
         console.log("Datos del producto no validos.");
         return res.status(200).send({ message: "Datos del producto no validos." });

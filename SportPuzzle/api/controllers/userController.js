@@ -11,27 +11,21 @@ function createUser(req, res) {
   var user = new User();
 
   if (
-    params.name &&
-    params.surname &&
-    params.nick &&
+    params.fullName &&
     params.email &&
-    params.password &&
-    params.role
+    params.password
   ) {
-    user.name = params.name;
-    user.surname = params.surname;
-    user.nick = params.nick;
+    user.nickName = params.nickName;
+    user.fullName = params.fullName;
     user.email = params.email;
     user.role = params.role;
     user.image = "default.jpg";
-    user.active = "activo";
+    user.active = true;
 
-    //Validamos que los datos email y nick no esten ya registrados.
+    //Validamos que los datos email no esten ya registrados.
     User.find({
       $or: [
-        { email: user.email.toLowerCase() },
-        { nick: user.nick.toLowerCase() },
-        { nick: user.nick },
+        { email: user.email.toLowerCase() }
       ],
     }).exec((err, users) => {
       if (err) {
@@ -65,8 +59,8 @@ function createUser(req, res) {
       }
     });
   } else {
-    console.log("Usuario creado correctamente.");
-    res.status(201).send({ message: "Usuario creado correctamente." });
+    console.log("Envia todos los datos faltantes.");
+    res.status(201).send({ message: "Envia todos los datos faltantes." });
   }
 }
 
@@ -88,7 +82,7 @@ function authUser(req, res) {
             //Para poder ver el token el los params agregamos una variable llamada gettoken = true
             if (params.gettoken) {
               //Generar y devolver un token
-              return res.status(200).send({ token: jwt.createToken(user) });
+              return res.status(200).send({ token: jwt.createToken(user), role: user.role, username: user.nickName });
             } else {
               //devolver datos de usuario
               user.password = undefined;
