@@ -41,7 +41,7 @@
     $(document).ready(function() {
         debugger
         getCursosRecientesYCategorias();
-
+        var token = localStorage.getItem("token");
         function getCursosRecientesYCategorias() {
             debugger
             var promise = $.ajax({
@@ -86,6 +86,9 @@
                     type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
+                    headers: {
+                        'Authorization': token
+                    },
                     success: function(datos) {
                         for (let dato of datos.message) {
                             var html = '<li class="nav-item" style="background-color: #7952b3; border-radius:10px;">';
@@ -124,6 +127,9 @@
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
+                headers: {
+                    'Authorization': token
+                },
                 success: function(datos) {
                     var muestrame = Object.keys(datos).length; //Obtienes el numero
                     if (muestrame > 0) {
