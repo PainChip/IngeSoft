@@ -7,6 +7,7 @@ var app = express();
 var user_routes = require('./routes/userRoute');
 var product_routes = require('./routes/productRoute');
 var category_routes = require('./routes/categoryRoute');
+var cart_routes = require('./routes/cartRoute');
 
 //middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 app.use('/api', user_routes);
 app.use('/api', category_routes);
 app.use('/api', product_routes);
+app.use('/api', cart_routes);
 
 //exportar 
 module.exports = app;

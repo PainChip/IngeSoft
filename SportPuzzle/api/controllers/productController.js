@@ -11,12 +11,12 @@ function createProduct(req, res) {
     }
     
     var params = req.body;
-    
-    if(product === false) {
-        console.log("Datos del producto no validos.");
-        return res.status(200).send({ message: "Datos del producto no validos." });
-    }
-
+    var product = new Product();
+    product.name = params.name;
+    product.description = params.description;
+    product.price = params.price;
+    product.image = params.image;
+    product.active = params.active;
     Category.find({name:params.category}, (err, category) => {
         if(err) {
             console.log(err);
@@ -173,30 +173,12 @@ function getProductsByCat(req, res) {
     });
 }
 
-function getProductAdmin(req, res) {
-    var productId = req.params.product;
 
-    Product.findOne({_id:productId}, (err, product) => {
+function getTopProducts(req, res) {
+    Product.find({active:1}).populate('category').sort({creationDate: -1}).limit(3).exec((err, products) => {
         if(err) {
             console.log(err);
-            return res.status(500).send({message:"Error en la petición al obtener el producto."})
-        }
-
-        if(!product) {
-            console.log(`No se ha encontrado el producto con el id: ${productId}`);
-            return res.status(204).send({ message: "No se ha encontrado el producto." });
-        }
-
-        console.log(product);
-        return res.status(200).send(product);
-    });
-}
-
-function getProductsAdmin(req, res) {
-    Product.find((err, products) => {
-        if(err) {
-            console.log(err);
-            return res.status(500).send({message:"Error en la petición al obtener el producto."})
+            return res.status(500).send({message: "Error en la petición al obtener los productos."});
         }
 
         if(!products[0]) {
@@ -206,68 +188,32 @@ function getProductsAdmin(req, res) {
 
         console.log(products);
         return res.status(200).send(products);
-    })
-}
-
-function uploadImage(req, res) {
-    var productId = req.params.product;
-
-	if(req.files){
-		var file_path = req.files.image.path;
-		var file_split = file_path.split('\\');
-		var file_name = file_split[2]; //Obtenemos el nombre de la imagen.
-		var ext_split = file_name.split('\.'); //Cortamos la extension del archivo.
-		var file_ext = ext_split[1];
-
-        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
-            Product.findByIdAndUpdate({_id:productId,image:file_name}, (err, productUpdate) => {
-                if(err) {
-                    console.log(err);
-                    return res.status(500).send({ message: "Error al actualizar el producto." });
-                }
-        
-                if(!productUpdate) {
-                    console.log("No se ha actualizado el producto.");
-                    return res.status(204).send({ message: "No se ha actualizado el producto." });
-                }
-        
-                console.log(productUpdate);
-                return res.status(200).send({ message: true });
-            });
-        } else {
-			return removeFilesOfUploads(res, file_path, 'Extension no es valida.');
-		}
-
-    } else {
-		return res.status(200).send({ message: 'No se han subido imagenes.' });
-	}
-}
-
-function removeFilesOfUploads(res, file_path, message){
-    fs.unlink(file_path, (err)=>{
-        return res.status(200).send({ message: message });
     });
 }
+function getTopProducts2(req, res) {
+    Product.find({active:1}).populate('category').sort({creationDate: 1}).limit(3).exec((err, products) => {
+        if(err) {
+            console.log(err);
+            return res.status(500).send({message: "Error en la petición al obtener los productos."});
+        }
 
-function getImageProduct(req, res){
-	var image_files = req.params.imageFile;
-	var path_file = './uploads/products/' + image_files;
+        if(!products[0]) {
+            console.log("No se encuentran productos registrados.");
+            return res.status(204).send({ message: "No se encuentran productos registrados." });
+        }
 
-	fs.exists(path_file, (exists)=>{
-		return exists ? res.sendFile(path.resolve(path_file)) : res.status(200).send({ message: 'No existe la imagen...' });
-	})
+        console.log(products);
+        return res.status(200).send(products);
+    });
 }
-
 
 module.exports = {
     createProduct,
     editProduct,
     dropProduct,
     getProduct,
+    getTopProducts,
+    getTopProducts2,
     getProducts,
-    getProductsByCat,
-    getProductAdmin,
-    getProductsAdmin,
-    uploadImage,
-    getImageProduct
+    getProductsByCat
 };

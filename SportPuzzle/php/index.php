@@ -67,40 +67,44 @@
 
     $(document).ready(function() {
 
-        //getCursos();
+        getCursos();
 
         function getCursos() {
             debugger
             var promise = $.ajax({
-                url: urlglobal.url + "/get3CursosRecientes",
+                url: urlglobal.url + "/getTopProducts",
                 async: true,
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(datos) {
+                    console.log(datos);
+                    debugger
                     for (let dato of datos) {
                         var html = '<div class="col-md-4 mb-5">';
                         html += '<div class="card h-100">';
-                        html += '<img class="card-img-top" src="' + dato.foto + '" alt="">';
+                        html += '<img class="card-img-top" src="'+ dato.image + '" alt="">';
                         html += '<div class="card-body">';
-                        html += '<h4 class="card-title">' + dato.nombre + '</h4>';
-                        html += '<p class="card-text">' + dato.descripcion + '</p>';
+                        html += '<h4 class="card-title">' + dato.name + '</h4>';
+                        html += '<p class="card-text">' + dato.description + '</p>';
                         html += '</div>';
                         html += '<div class="card-footer">';
-                        html += '<a href="seleccionado.php?idcurso=' + dato.id_curso + '" class="btn btn-primary">Ver Curso</a>';
+                        html += '<a href="seleccionado.php?idProd=' + dato._id + '" class="btn btn-primary">Ver Producto</a>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
                         $('#CursosRecientes').append(html);
                     }
                 },
-                error: function() {
+                error: function(data) {
+                    console.log(data);
+                    debugger
                     alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
                 }
             })
             promise.then(() => {
                 $.ajax({
-                    url: urlglobal.url + "/get3CursosMasVendidos",
+                    url:  urlglobal.url + "/getTopProducts2",
                     async: true,
                     type: 'POST',
                     dataType: 'json',
@@ -109,13 +113,13 @@
                         for (let dato of datos) {
                             var html = '<div class="col-md-4 mb-5">';
                             html += '<div class="card h-100">';
-                            html += '<img class="card-img-top" src="' + dato.foto + '" alt="">';
+                            html += '<img class="card-img-top" src="'+ dato.image + '" alt="">';
                             html += '<div class="card-body">';
-                            html += '<h4 class="card-title">' + dato.nombre + '</h4>';
-                            html += '<p class="card-text">' + dato.descripcion + '</p>';
+                            html += '<h4 class="card-title">' + dato.name + '</h4>';
+                            html += '<p class="card-text">' + dato.description + '</p>';
                             html += '</div>';
                             html += '<div class="card-footer">';
-                            html += '<a href="seleccionado.php?idcurso=' + dato.id_curso + '" class="btn btn-primary">Ver Curso</a>';
+                            html += '<a href="seleccionado.php?idProd=' + dato._id + '" class="btn btn-primary">Ver Producto</a>';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';

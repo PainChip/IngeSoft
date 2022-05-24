@@ -41,7 +41,21 @@ function createCategory(req, res) {
         
     });
 }
+function getAllCategories(req, res){
+    Category.find({}, (err, categories) => {
+        if(err){
+            console.log(err);
+            return res.status(500).send({message:"Error del servidor en la petición."});
+        }
+        if(!categories[0]){
+            console.log("No se encontraron categorias.");
+            return res.status(404).send({message: "No se encontraron categorías."});
+        }
 
+        return res.status(200).send({message: categories});
+    });
+}
 module.exports = {
-    createCategory
+    createCategory,
+    getAllCategories
 };

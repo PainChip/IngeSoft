@@ -8,7 +8,9 @@ var ProductSchema = Schema({
     characteristics: String,
     category: {type: Schema.ObjectId, ref: 'Category'},
     image: String,
-    active: Boolean
+    active: Boolean,
+    creationDate: String,
+    lastUpdateDate: String
 });
 
 module.exports = mongoose.model("Product", ProductSchema); 
