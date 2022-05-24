@@ -80,6 +80,7 @@ include 'footer.php';
     } from '../Js/urlglobal.js'
     var cursosarray = [];
     $(document).ready(function() {
+        var token = localStorage.getItem("token");
         getCarritoPersona();
         var preciototal = 0;
 
@@ -88,8 +89,7 @@ include 'footer.php';
             $.ajax({
                 url: urlglobal.url + "/getCart",
                 async: true,
-                type: 'POST',
-                data: dataToSendJson,
+                type: 'GET',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 headers: {
@@ -97,48 +97,52 @@ include 'footer.php';
                 },
                 success: function(datos) {
                     cursosarray = [];
-                    cursosarray = datos;
+                    cursosarray = datos[0];
                     debugger
-                    var muestrame = Object.keys(datos).length; //Obtienes el numero
+                    var muestrame = Object.keys(datos[0].products).length; //Obtienes el numero
                     if (muestrame > 0) {
                         if (muestrame >= 3) {
                             document.getElementById("footer").style.position = "relative";
                         }
                         debugger
-                        for (let dato of datos) {
-                            preciototal += parseInt(dato.PrecioCurso);
+                        var index = 0;
+                        var precio_total = 0;
+                        for (let dato of datos[0].products) {
                             var html = '<a class="" style="text-decoration: none; color: black;">';
                             html += '<div class="card mb-3" style="max-width: 1200px;">';
                             html += '<div class="row ">';
                             html += '<div class="col-md-4">';
-                            html += '<img height="197" src="' + dato.FotoCurso + '" class="card-img" alt="...">';
+                            html += '<img height="197" src="' + dato.image + '" class="card-img" alt="...">';
                             html += '</div>';
                             html += '<div class="col-md-4">';
                             html += '<div class="card-body">';
-                            html += '<h5 class="card-title">' + dato.NombreCurso + '</h5>';
-                            html += '<p class="card-text">' + dato.DescripcionCurso + '</p>';
-                            html += '<p class="card-text"><small class="text-muted"> Precio: $' + dato.PrecioCurso + '</small></p>';
+                            html += '<h5 class="card-title">' + dato.name + '</h5>';
+                            html += '<p class="card-text">' + dato.description + '</p>';
+                            html += '<p class="card-text"><small class="text-muted"> Precio: $' + dato.price + '</small></p>';
+                            html += '<p class="card-text"><small class="text-muted"> Cantidad: ' + datos[0].cantidad[index] + '</small></p>';
                             html += '</div>';
                             html += '</div>';
                             html += '<div class="col-md-4 ">';
                             html += '<div class="card-body ">';
-                            html += '<button class="btn btn-primary buttondelete" valor="' + dato.id_carrito + '" >Eliminar</button>';
+                            html += '<button class="btn btn-primary buttondelete" valor="' + dato._id + '" valor2="' + datos[0].cantidad[index] + '" >Eliminar</button>';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';
                             html += '</a>';
-
+                            precio_total += (dato.price * datos[0].cantidad[index]);
                             $('#insertarAlCarro').append(html);
                         }
+                        document.getElementById("exampleModalPrize").innerHTML = "Total a Pagar: $" + precio_total;
                         $('#APagar').removeAttr("disabled");
-                        document.getElementById("exampleModalPrize").innerHTML = "Total a Pagar: $" + preciototal;
                     } else {
                         $('#APagar').attr("disabled", true);
                     }
 
                 },
-                error: function() {
+                error: function(data) {
+                    console.log(data);
+                    debugger
                     alert("Error agregando al carro");
                 }
 
@@ -146,7 +150,8 @@ include 'footer.php';
         };
         $("body").on("click", ".buttondelete", function() {
             let dalepapu = $(this).attr("valor");
-            EliminaCursoCarro(dalepapu);
+            let dalepapu2 = $(this).attr("valor2");
+            EliminaProdCarro(dalepapu,dalepapu2);
         });
         $("body").on("click", "#PagarFinal", function() {
             var NumeroTarjeta = $('#NumeroTarjeta').val();
@@ -167,16 +172,17 @@ include 'footer.php';
             }
         });
 
-        function EliminaCursoCarro(param) {
+        function EliminaProdCarro(param,param2) {
             var dataToSend = {
-                id_carrito: param
+                productId: param,
+                cantidad: param2
             };
             var dataToSendJson = JSON.stringify(dataToSend);
 
             debugger
 
             $.ajax({
-                url: urlglobal.url + "/EliminaCursoCarro",
+                url: urlglobal.url + "/deleteItemByUserIdAndProductId",
                 async: true,
                 type: 'POST',
                 data: dataToSendJson,
@@ -201,48 +207,6 @@ include 'footer.php';
             });
         };
 
-        function AgregarContratado() {
-            var muestrame = cursosarray.length;
-            var salimos = 0;
-            debugger
-            for (let i = 0; i < muestrame; i++) {
-                var dataToSend = {
-                    cursoid: cursosarray[i].cursoid,
-                    usuarioid: cursosarray[i].usuarioid
-                };
-                var dataToSendJson = JSON.stringify(dataToSend);
-
-                debugger
-
-                var promise = $.ajax({
-                    url: urlglobal.url + "/AgregaContrata",
-                    async: true,
-                    type: 'POST',
-                    data: dataToSendJson,
-                    dataType: 'json',
-                    contentType: 'application/json; charset=utf-8',
-                    success: function(datos) {
-                        salimos += 1;
-                    },
-                    error: function() {
-                        alert("Error contratando curso");
-                        debugger
-                    }
-                });
-                promise.then(() => {
-                    if (salimos = muestrame) {
-                        let carro = document.getElementById('insertarAlCarro'); //limpias el chat de con quien chateas
-                        while (carro.firstChild) {
-                            carro.removeChild(carro.firstChild);
-                        }
-                        preciototal = 0;
-                        getCarritoPersona(idactual);
-                    }
-                });
-            };
-
-
-        }
 
     });
 </script>

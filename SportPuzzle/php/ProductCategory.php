@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CurSOS</title>
+    <title>SportsPuzzle</title>
     <script type="text/javascript" src="../Js/jquery-2.1.4.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -22,8 +22,9 @@
     include 'navbar.php';
     ?>
     <div class="container" style="margin-top: 40px;">
-        <ul class="nav nav-tabs" id="CategoriasNav">
+        <ul class="nav nav-tabs navbar-expand-lg navbar-dark" id="CategoriasNav">
         </ul>
+        <br />
         <div id="cursosSeleccionados">
         </div>
 
@@ -44,24 +45,26 @@
         function getCursosRecientesYCategorias() {
             debugger
             var promise = $.ajax({
-                url: urlglobal.url + "/get3CursosRecientes",
+                url: urlglobal.url + "/getTopProducts",
                 async: true,
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(datos) {
+                    console.log(datos);
+                    debugger
                     for (let dato of datos) {
-                        var html = '<a class="cursito" href="seleccionado.php?idcurso=' + dato.id_curso + '" style="text-decoration: none; color: black;">';
-                        html += '<div class="card mb-3" style="max-width: 1200px;">';
+                        var html = '<a class="cursito" href="seleccionado.php?idcurso=' + dato._id + '" style="text-decoration: none; color: black;">';
+                        html += '<div class="card mb-3" style="max-width: 1200px; border:3px solid #7952b3">';
                         html += '<div class="row no-gutters">';
                         html += '<div class="col-md-4">';
-                        html += '<img  height="207" src="' + dato.foto + '" class="card-img" alt="...">';
+                        html += '<img  height="207" src="' + dato.image + '" class="card-img" alt="..." style = "border:1px solid black">';
                         html += '</div>';
                         html += '<div class="col-md-8">';
                         html += '<div class="card-body">';
-                        html += '<h5 class="card-title">' + dato.nombre + '</h5>';
-                        html += '<p class="card-text"> Descripcion: ' + dato.descripcion + '</p>';
-                        html += '<p class="card-text"><small class="text-muted"> Precio: $' + dato.costo + '</small></p>';
+                        html += '<h5 class="card-title">' + dato.name + '</h5>';
+                        html += '<p class="card-text"> Descripcion: ' + dato.description + '</p>';
+                        html += '<p class="card-text"><small class="text-muted"> Precio: $' + dato.price + '</small></p>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
@@ -70,27 +73,30 @@
                         $('#cursosSeleccionados').append(html);
                     }
                 },
-                error: function() {
+                error: function(data) {
+                    debugger
+                    console.log(data);
                     alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
                 }
             });
             promise.then(() => {
                 var promise2 = $.ajax({
-                    url: urlglobal.url + "/getCategorias",
+                    url: urlglobal.url + "/getAllCategories",
                     async: true,
-                    type: 'POST',
+                    type: 'GET',
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     success: function(datos) {
-                        for (let dato of datos) {
-                            var html = '<li class="nav-item">';
-                            html += '<a class="nav-link categoriaSelect" idCategoria = "' + dato.id_categoria + '" style="cursor: pointer;">' + dato.categoria + '</a>';
+                        for (let dato of datos.message) {
+                            var html = '<li class="nav-item" style="background-color: #7952b3; border-radius:10px;">';
+                            html += '<a class="nav-link categoriaSelect" idCategoria = "' + dato._id + '" style="cursor: pointer; color: white;">' + dato.name + '</a>';
                             html += '</li>';
                             $('#CategoriasNav').append(html);
                         }
                     },
-                    error: function(x, y, z) {
-                        alert("Error en la api: " + x + y + z);
+                    error: function(datos) {
+                        console.log(datos);
+                        debugger
                     }
                 })
 
@@ -113,9 +119,8 @@
             var dataToSendJson = JSON.stringify(dataToSend);
             debugger
             var promise = $.ajax({
-                url: urlglobal.url + "/TraerCursosDeCategoria",
+                url: urlglobal.url + "/getProductsByCat/" + idCategoria,
                 async: true,
-                data: dataToSendJson,
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
@@ -123,17 +128,17 @@
                     var muestrame = Object.keys(datos).length; //Obtienes el numero
                     if (muestrame > 0) {
                         for (let dato of datos) {
-                            var html = '<a class="cursito" href="seleccionado.php?idcurso=' + dato.id_curso + '" style="text-decoration: none; color: black;">';
-                            html += '<div class="card mb-3" style="max-width: 1200px;">';
+                            var html = '<a class="cursito" href="seleccionado.php?idcurso=' + dato._id + '" style="text-decoration: none; color: black;">';
+                            html += '<div class="card mb-3" style="max-width: 1200px; border:3px solid #7952b3">';
                             html += '<div class="row no-gutters">';
                             html += '<div class="col-md-4">';
-                            html += '<img  height="207" src="' + dato.foto + '" class="card-img" alt="...">';
+                            html += '<img  height="207" src="' + dato.image + '" class="card-img" alt="..." style = "border:1px solid black">';
                             html += '</div>';
                             html += '<div class="col-md-8">';
                             html += '<div class="card-body">';
-                            html += '<h5 class="card-title">' + dato.nombre + '</h5>';
-                            html += '<p class="card-text"> Descripcion: ' + dato.descripcion + '</p>';
-                            html += '<p class="card-text"><small class="text-muted"> Precio: $' + dato.costo + '</small></p>';
+                            html += '<h5 class="card-title">' + dato.name + '</h5>';
+                            html += '<p class="card-text"> Descripcion: ' + dato.description + '</p>';
+                            html += '<p class="card-text"><small class="text-muted"> Precio: $' + dato.price + '</small></p>';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';
@@ -141,11 +146,11 @@
                             html += '</a>';
                             $('#cursosSeleccionados').append(html);
                         }
-
                     }
                 },
-                error: function() {
-                    // alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
+                error: function(datos) {
+                    console.log(datos);
+                    debugger
                 }
             });
         }
