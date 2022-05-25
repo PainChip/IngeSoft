@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="../css/modsindex.css">
 
 </head>
-
 <body>
     <?php
     include 'navbar.php';
@@ -44,7 +43,7 @@
                 </div>
             </div>
             <div class="col-md-12 mb-5">
-                <h2>Productos mas vendidos</h2>
+                <h2>Productos variados</h2>
                 <hr>
                 <div class="row" id="CursosMasVendidos">
                 </div>
@@ -99,7 +98,7 @@
                 error: function(data) {
                     console.log(data);
                     debugger
-                    alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
+                    alert("Error con los productos mas recientes, posiblemente no hay ni uno");
                 }
             })
             promise.then(() => {
@@ -127,7 +126,7 @@
                         }
                     },
                     error: function() {
-                        alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
+                        alert("Error con los productos mas recientes, posiblemente no hay ni uno");
                     }
                 })
 

@@ -25,12 +25,12 @@
                             <a class="nav-link" href=""> Historial</a>
                         </li>
                     </ul>
-                    <form action="User.php" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
+                    <form action="" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
                         <input name="searchUser" class="form-control mr-sm-2" type="search" placeholder="Busca Usuario" aria-label="Search">
                         <button class="btn btn-primary my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
-                    <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
-                        <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Curso" aria-label="Search">
+                    <form action="" method="post" class="form-inline my-2 my-lg-0">
+                        <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Producto" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
                     <a href="vendiendo.php"><img id="carrito" src="https://cdn-icons-png.flaticon.com/512/107/107831.png?w=360" alt=""></a>
@@ -68,12 +68,12 @@
                             <a class="nav-link" href=""> Tus ventas</a>
                         </li>
                     </ul>
-                    <form action="User.php" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
+                    <form action="" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
                         <input name="searchUser" class="form-control mr-sm-2" type="search" placeholder="Busca Usuario" aria-label="Search">
                         <button class="btn btn-primary my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
-                    <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
-                        <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Curso" aria-label="Search">
+                    <form action="" method="post" class="form-inline my-2 my-lg-0">
+                        <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Producto" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
                     <a href="vendiendo.php"><img id="carrito" src="https://cdn-icons-png.flaticon.com/512/107/107831.png?w=360" alt=""></a>
@@ -99,12 +99,12 @@
                     </li>
 
                 </ul>
-                <form action="User.php" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
+                <form action="" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
                     <input name="searchUser" class="form-control mr-sm-2" type="search" placeholder="Busca Usuario" aria-label="Search">
                     <button class="btn btn-primary my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                 </form>
-                <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
-                    <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Curso" aria-label="Search">
+                <form action="" method="post" class="form-inline my-2 my-lg-0">
+                    <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Producto" aria-label="Search">
                     <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                 </form>
                 <a id="Login" class="btn btn-outline-light" href="Login.php" role="button" style="margin-left: 10px;">Acceder</a>

@@ -156,7 +156,7 @@
                 var nameData = $('#Name').val();
                 var emailData = $('#Email2').val();
                 var passwordData = $('#Contra2').val();
-                if (roleData == "" || nickData == "" || nameData == "" || emailData == "" || passwordData == "") {
+                if (roleData == "" ||roleData == "Elige el tipo de usuario." || nickData == "" || nameData == "" || emailData == "" || passwordData == "") {
                     alert("Datos incompletos");
                 } else {
                     if (validar_clave(passwordData)) {
